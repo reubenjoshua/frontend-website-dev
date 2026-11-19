@@ -14,26 +14,26 @@ const metrics = [
 
 export function MetricPanel({ place }: Props) {
   return (
-    <section aria-labelledby="metrics-heading" className="mt-10">
+    <section aria-labelledby="metrics-heading" className="mt-12">
       <h2
         id="metrics-heading"
-        className="font-[family-name:var(--font-display)] text-2xl font-semibold text-foreground"
+        className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
       >
         Livability metrics
       </h2>
 
-      <dl className="mt-5 grid gap-4 sm:grid-cols-2">
+      <dl className="mt-6 grid gap-4 sm:grid-cols-2">
         {metrics.map((metric) => {
           const value = place[metric.key];
           return (
             <div
               key={metric.key}
-              className="rounded-lg border border-border bg-surface p-5"
+              className="rounded-xl border border-border bg-surface p-5 sm:p-6"
             >
               <dt className="text-sm font-medium text-foreground">
                 {metric.label}
               </dt>
-              <dd className="mt-2 text-3xl font-semibold text-accent">
+              <dd className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-accent sm:text-4xl">
                 {formatScore(value)}
               </dd>
               <p className="mt-2 text-sm text-muted">{metric.hint}</p>

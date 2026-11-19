@@ -1,48 +1,113 @@
 ﻿import Link from "next/link";
 
+function SignalVisual() {
+  return (
+    <div
+      aria-hidden="true"
+      className="relative mx-auto aspect-square w-full max-w-[34rem] lg:mx-0"
+    >
+      <div className="absolute inset-[8%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(106,158,190,0.22)_0%,_rgba(106,158,190,0.06)_42%,_transparent_70%)]" />
+      <div className="absolute inset-[18%] rounded-full border border-[#b7d2e4]/70" />
+      <div className="absolute inset-[30%] rounded-full border border-[#9fc2d9]/60" />
+      <div className="absolute inset-[42%] rounded-full border border-accent/35" />
+
+      <svg
+        viewBox="0 0 400 400"
+        className="relative h-full w-full"
+        fill="none"
+      >
+        <path
+          d="M40 268C88 240 120 300 168 270C214 242 236 198 286 214C336 230 352 178 384 168"
+          stroke="#9fc2d9"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          className="animate-rise-delay-1"
+        />
+        <path
+          d="M28 214C84 198 118 248 170 220C222 192 248 150 302 164C348 176 366 132 392 120"
+          stroke="#6a9ebe"
+          strokeWidth="2"
+          strokeLinecap="round"
+          className="animate-rise-delay-2"
+        />
+        <path
+          d="M52 312C104 290 138 338 188 312C236 288 262 250 312 262C350 272 368 240 390 230"
+          stroke="#c5dae8"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          className="animate-rise"
+        />
+
+        <circle cx="168" cy="270" r="5" fill="#6a9ebe" />
+        <circle cx="286" cy="214" r="4" fill="#8eb4ce" />
+        <circle cx="170" cy="220" r="6" fill="#5b8faf" />
+        <circle cx="302" cy="164" r="4.5" fill="#6a9ebe" />
+        <circle cx="188" cy="312" r="4" fill="#9fc2d9" />
+
+        <circle
+          cx="170"
+          cy="220"
+          r="14"
+          stroke="#6a9ebe"
+          strokeOpacity="0.35"
+          className="origin-center motion-safe:animate-ping"
+          style={{ transformBox: "fill-box", transformOrigin: "center" }}
+        />
+      </svg>
+
+    </div>
+  );
+}
+
 export default function HomePage() {
   return (
-    <main className="relative flex min-h-svh flex-col overflow-hidden">
+    <main className="relative flex min-h-[calc(100svh-4rem)] flex-col overflow-hidden">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_#c5dde0_0%,_transparent_55%),radial-gradient(ellipse_at_bottom_left,_#d9e4ef_0%,_transparent_50%),linear-gradient(180deg,_#e8eef4_0%,_#f0f4f8_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_78%_28%,_#e7f2f8_0%,_transparent_42%),linear-gradient(165deg,_#f8fafc_0%,_#eef5fa_48%,_#f7fafc_100%)]"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.35] [background-image:linear-gradient(rgba(11,31,42,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(11,31,42,0.06)_1px,transparent_1px)] [background-size:48px_48px]"
+        className="pointer-events-none absolute inset-0 opacity-[0.35] [background-image:linear-gradient(rgba(106,158,190,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(106,158,190,0.08)_1px,transparent_1px)] [background-size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_78%)]"
       />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-6 py-16 sm:px-10">
-        <p className="font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.2em] text-accent uppercase">
-          City Pulse
-        </p>
+      <div className="relative z-10 mx-auto grid w-full max-w-6xl flex-1 items-center gap-12 px-6 py-14 sm:px-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-8 lg:py-10">
+        <div className="max-w-xl">
+          <p className="animate-rise font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            City Pulse
+          </p>
 
-        <h1 className="mt-6 max-w-3xl font-[family-name:var(--font-display)] text-4xl leading-tight font-semibold tracking-tight text-foreground sm:text-6xl">
-          Read your city in clearer signals.
-        </h1>
+          <h1 className="animate-rise-delay-1 mt-5 font-[family-name:var(--font-display)] text-4xl leading-[1.18] font-medium tracking-tight text-foreground sm:text-5xl lg:text-[3.35rem]">
+            Read your city in clearer signals.
+          </h1>
 
-        <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted sm:text-xl">
-          Explore neighborhoods through air quality, transit, green space, and
-          noise — open data, made readable.
-        </p>
+          <p className="animate-rise-delay-2 mt-5 max-w-md text-lg leading-relaxed text-muted">
+            Explore neighborhoods through air quality, transit, green space, and
+            noise — open data, made readable.
+          </p>
 
-        <div
-          className="mt-10 flex flex-wrap items-center gap-4"
-          role="group"
-          aria-label="Get started"
-        >
-          <Link
-            href="/explore"
-            className="inline-flex h-12 items-center justify-center rounded-md bg-accent px-6 text-base font-semibold text-accent-foreground transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          <div
+            className="animate-rise-delay-3 mt-9 flex flex-wrap items-center gap-3"
+            role="group"
+            aria-label="Get started"
           >
-            Explore neighborhoods
-          </Link>
-          <Link
-            href="/explore?sort=airQuality"
-            className="inline-flex h-12 items-center justify-center rounded-md border border-border bg-surface/70 px-6 text-base font-medium text-foreground backdrop-blur transition hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-          >
-            Sort by air quality
-          </Link>
+            <Link
+              href="/explore"
+              className="inline-flex h-12 items-center justify-center rounded-full bg-accent px-7 text-base font-semibold text-accent-foreground transition hover:bg-[#5b8faf] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            >
+              Explore neighborhoods
+            </Link>
+            <Link
+              href="/explore?sort=airQuality"
+              className="inline-flex h-12 items-center justify-center rounded-full border border-border bg-surface/90 px-7 text-base font-medium text-foreground transition hover:border-accent/40 hover:bg-accent-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            >
+              Sort by air quality
+            </Link>
+          </div>
+        </div>
+
+        <div className="animate-rise-delay-2 hidden sm:block">
+          <SignalVisual />
         </div>
       </div>
     </main>
