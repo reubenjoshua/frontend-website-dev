@@ -3,6 +3,13 @@ Explore neighborhoods through clearer livability signals — air quality, transi
 > A frontend portfolio project built to demonstrate production-minded React/Next.js craft: readable architecture, accessible UI, URL-driven state, and CI-backed quality.
 **Live demo:** _Coming soon_ <!-- replace with your Vercel URL -->
 ---
+
+## Screenshots
+![Home](docs/home.png)
+![Explore](docs/explore.png)
+![Place detail](docs/place.png)
+![Editor](docs/editor.png)
+
 ## Why this project
 In my city, livability information already exists — air quality readings, transit coverage, green space, and noise-related signals — but most people never see it in a useful way.
 The data is available in fragments across reports, portals, and internal systems. Residents still struggle to answer simple questions like:
