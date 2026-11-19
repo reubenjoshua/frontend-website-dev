@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Newsreader, Source_Sans_3 } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { PlacesProvider } from "@/shared/providers/places-provider";
 import { QueryProvider } from "@/shared/providers/query-provider";
+import { SiteHeader } from "@/shared/ui/site-header";
 import "./globals.css";
 
 const display = Newsreader({
@@ -39,28 +40,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to main content
         </a>
 
-        <header className="sticky top-0 z-40 border-b border-border/80 bg-background/90 backdrop-blur-md">
-          <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6 sm:px-10">
-            <Link
-              href="/"
-              className="font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-            >
-              City Pulse
-            </Link>
-            <nav aria-label="Primary">
-              <Link
-                href="/explore"
-                className="rounded-full bg-accent-soft px-4 py-2 text-sm font-semibold text-accent transition hover:bg-[#dceaf3] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-              >
-                Explore
-              </Link>
-            </nav>
-          </div>
-        </header>
+        <SiteHeader />
 
         <div id="main-content" className="flex flex-1 flex-col">
           <NuqsAdapter>
-            <QueryProvider>{children}</QueryProvider>
+            <QueryProvider>
+              <PlacesProvider>{children}</PlacesProvider>
+            </QueryProvider>
           </NuqsAdapter>
         </div>
       </body>

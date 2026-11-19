@@ -1,15 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getPlaces } from "@/features/explore/api/get-places";
 import { placeKeys } from "@/features/explore/api/query-keys";
 import { useDebouncedValue } from "@/features/explore/hooks/use-debounced-value";
 import { useExploreFilters } from "@/features/explore/hooks/use-explore-filters";
+import { filterPlaces } from "@/features/explore/lib/filter-places";
+import { usePlaces } from "@/shared/providers/places-provider";
 import { FilterBar } from "./filter-bar";
 import { ResultsList } from "./results-list";
 
+function delay(ms = 350) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export function ExploreView() {
+  const { places, districts, ready } = usePlaces();
   const [filters, setFilters] = useExploreFilters();
   const [searchInput, setSearchInput] = useState(filters.q);
   const [urlQuery, setUrlQuery] = useState(filters.q);
@@ -26,14 +32,21 @@ export function ExploreView() {
     void setFilters({ q: debouncedSearch });
   }, [debouncedSearch, filters.q, setFilters]);
 
-  const queryFilters = {
-    ...filters,
-    q: debouncedSearch,
-  };
+  const queryFilters = useMemo(
+    () => ({
+      ...filters,
+      q: debouncedSearch,
+    }),
+    [filters, debouncedSearch],
+  );
 
   const query = useQuery({
-    queryKey: placeKeys.list(queryFilters),
-    queryFn: () => getPlaces(queryFilters),
+    queryKey: placeKeys.list({ ...queryFilters, count: places.length }),
+    enabled: ready,
+    queryFn: async () => {
+      await delay();
+      return filterPlaces(places, queryFilters);
+    },
   });
 
   return (
@@ -61,6 +74,7 @@ export function ExploreView() {
           district={filters.district}
           sort={filters.sort}
           q={searchInput}
+          districts={districts}
           onDistrictChange={(district) => setFilters({ district })}
           onSortChange={(sort) => setFilters({ sort })}
           onQueryChange={setSearchInput}
@@ -73,7 +87,7 @@ export function ExploreView() {
         >
           <ResultsList
             places={query.data ?? []}
-            isLoading={query.isLoading}
+            isLoading={!ready || query.isLoading}
             isError={query.isError}
           />
         </div>

@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { notFound } from "next/navigation";
 import { getPlace } from "@/features/place/api/get-place";
-import { MetricPanel } from "@/features/place/components/metric-panel";
-import { PlaceHeader } from "@/features/place/components/place-header";
-import { TrendChart } from "@/features/place/components/trend-chart";
+import { PlaceDetailView } from "@/features/place/components/place-detail-view";
 import { places } from "@/shared/data/places";
 
 type Props = {
@@ -51,25 +48,9 @@ function PlaceFallback() {
 
 async function PlaceContent({ params }: Props) {
   const { id } = await params;
-  const place = await getPlace(id);
+  const initialPlace = await getPlace(id);
 
-  if (!place) {
-    notFound();
-  }
-
-  return (
-    <main className="relative min-h-svh overflow-hidden bg-background">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(ellipse_at_top_left,_rgba(106,158,190,0.12)_0%,_transparent_55%)]"
-      />
-      <div className="relative mx-auto w-full max-w-6xl px-6 py-12 sm:px-10 sm:py-14">
-        <PlaceHeader place={place} />
-        <MetricPanel place={place} />
-        <TrendChart place={place} />
-      </div>
-    </main>
-  );
+  return <PlaceDetailView id={id} initialPlace={initialPlace} />;
 }
 
 export default function PlacePage({ params }: Props) {

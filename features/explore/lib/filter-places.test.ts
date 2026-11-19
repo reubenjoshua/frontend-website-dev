@@ -13,6 +13,8 @@ const samplePlaces: Place[] = [
     greenSpace: 95,
     noise: 88,
     trend: [80, 85, 90],
+    updatedAt: "2026-03-01T00:00:00.000Z",
+    source: "City Open Data Portal",
   },
   {
     id: "bravo",
@@ -24,6 +26,8 @@ const samplePlaces: Place[] = [
     greenSpace: 20,
     noise: 30,
     trend: [50, 52, 55],
+    updatedAt: "2026-03-01T00:00:00.000Z",
+    source: "City Open Data Portal",
   },
   {
     id: "charlie",
@@ -35,6 +39,8 @@ const samplePlaces: Place[] = [
     greenSpace: 80,
     noise: 60,
     trend: [65, 68, 70],
+    updatedAt: "2026-03-01T00:00:00.000Z",
+    source: "City Open Data Portal",
   },
 ];
 

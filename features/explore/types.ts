@@ -1,4 +1,4 @@
-export type District = "north" | "south" | "east" | "west" | "central";
+export type District = string;
 
 export type Place = {
   id: string;
@@ -10,6 +10,8 @@ export type Place = {
   greenSpace: number;
   noise: number; // 0–100 higher = quieter
   trend: number[]; // recent air-quality trend
+  updatedAt: string; // ISO timestamp
+  source: string; // provenance label
 };
 
 export type PlaceSort =
@@ -18,3 +20,11 @@ export type PlaceSort =
   | "transitScore"
   | "greenSpace"
   | "noise";
+
+export const PRESET_DISTRICTS = [
+  "north",
+  "south",
+  "east",
+  "west",
+  "central",
+] as const;
