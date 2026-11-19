@@ -9,13 +9,13 @@ export const metadata: Metadata = {
 function ExploreFallback() {
   return (
     <div className="mx-auto w-full max-w-6xl px-6 py-10 sm:px-10">
-      <div className="h-10 w-48 animate-pulse rounded bg-surface" />
-      <div className="mt-6 h-28 animate-pulse rounded-lg border border-border bg-surface" />
-      <div className="mt-8 grid gap-4">
+      <div className="h-10 w-48 rounded bg-surface motion-safe:animate-pulse" />
+      <div className="mt-6 h-28 rounded-lg border border-border bg-surface motion-safe:animate-pulse" />
+      <div className="mt-8 grid gap-4" aria-hidden="true">
         {Array.from({ length: 3 }).map((_, index) => (
           <div
             key={index}
-            className="h-36 animate-pulse rounded-lg border border-border bg-surface"
+            className="h-36 rounded-lg border border-border bg-surface motion-safe:animate-pulse"
           />
         ))}
       </div>

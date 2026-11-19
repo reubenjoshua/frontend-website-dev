@@ -26,7 +26,11 @@ export default function HomePage() {
           noise — open data, made readable.
         </p>
 
-        <div className="mt-10 flex flex-wrap items-center gap-4">
+        <div
+          className="mt-10 flex flex-wrap items-center gap-4"
+          role="group"
+          aria-label="Get started"
+        >
           <Link
             href="/explore"
             className="inline-flex h-12 items-center justify-center rounded-md bg-accent px-6 text-base font-semibold text-accent-foreground transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"

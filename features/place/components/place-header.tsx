@@ -12,7 +12,7 @@ export function PlaceHeader({ place }: Props) {
         href="/explore"
         className="text-sm font-medium text-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
       >
-        ← Back to explore
+        <span aria-hidden="true">← </span>Back to explore
       </Link>
 
       <p className="mt-6 text-sm font-semibold tracking-[0.18em] text-accent uppercase">
