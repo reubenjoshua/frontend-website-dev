@@ -1,7 +1,7 @@
-import type { District, Place, PlaceSort } from "@/features/explore/types";
+import type { Place, PlaceSort } from "@/features/explore/types";
 
 export type FilterPlacesParams = {
-  district?: District | "all";
+  district?: string;
   sort?: PlaceSort;
   q?: string;
 };
@@ -16,7 +16,9 @@ export function filterPlaces(
   let result = [...places];
 
   if (district !== "all") {
-    result = result.filter((place) => place.district === district);
+    result = result.filter(
+      (place) => place.district.toLowerCase() === district.toLowerCase(),
+    );
   }
 
   if (query) {

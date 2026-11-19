@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Place } from "@/features/place/types";
+import { ProvenanceBadge } from "@/shared/ui/provenance-badge";
 
 type Props = {
   place: Place;
@@ -24,6 +25,11 @@ export function PlaceHeader({ place }: Props) {
       <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted">
         {place.summary}
       </p>
+      <ProvenanceBadge
+        className="mt-5"
+        updatedAt={place.updatedAt}
+        source={place.source}
+      />
     </header>
   );
 }

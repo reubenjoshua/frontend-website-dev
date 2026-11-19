@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Place } from "@/features/explore/types";
 import { formatScore } from "@/shared/lib/format";
+import { ProvenanceBadge } from "@/shared/ui/provenance-badge";
 
 type Props = {
   place: Place;
@@ -48,6 +49,12 @@ export function ResultCard({ place }: Props) {
       <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted sm:text-base">
         {place.summary}
       </p>
+
+      <ProvenanceBadge
+        className="mt-4"
+        updatedAt={place.updatedAt}
+        source={place.source}
+      />
 
       <dl className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
         <Metric label="Air" value={place.airQuality} />

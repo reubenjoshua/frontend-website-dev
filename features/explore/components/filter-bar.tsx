@@ -9,6 +9,7 @@ type Props = {
   district: ExploreDistrict;
   sort: PlaceSort;
   q: string;
+  districts: string[];
   onDistrictChange: (value: ExploreDistrict) => void;
   onSortChange: (value: PlaceSort) => void;
   onQueryChange: (value: string) => void;
@@ -18,6 +19,7 @@ export function FilterBar({
   district,
   sort,
   q,
+  districts,
   onDistrictChange,
   onSortChange,
   onQueryChange,
@@ -41,16 +43,14 @@ export function FilterBar({
           <span className="font-medium text-foreground">District</span>
           <Select
             value={district}
-            onChange={(event) =>
-              onDistrictChange(event.target.value as ExploreDistrict)
-            }
+            onChange={(event) => onDistrictChange(event.target.value)}
           >
             <option value="all">All districts</option>
-            <option value="north">North</option>
-            <option value="south">South</option>
-            <option value="east">East</option>
-            <option value="west">West</option>
-            <option value="central">Central</option>
+            {districts.map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
           </Select>
         </label>
 

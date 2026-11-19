@@ -1,6 +1,8 @@
 import { placesSchema } from "@/shared/lib/place-schema";
 import type { Place } from "@/features/explore/types";
 
+const DEFAULT_SOURCE = "City Open Data Portal";
+
 const placesData = [
   {
     id: "harbor-line",
@@ -12,6 +14,8 @@ const placesData = [
     greenSpace: 64,
     noise: 52,
     trend: [62, 65, 68, 70, 74, 76, 78],
+    updatedAt: "2026-03-12T08:00:00.000Z",
+    source: DEFAULT_SOURCE,
   },
   {
     id: "cedar-park",
@@ -23,6 +27,8 @@ const placesData = [
     greenSpace: 92,
     noise: 84,
     trend: [80, 82, 83, 85, 86, 87, 88],
+    updatedAt: "2026-03-10T08:00:00.000Z",
+    source: DEFAULT_SOURCE,
   },
   {
     id: "market-square",
@@ -34,6 +40,8 @@ const placesData = [
     greenSpace: 38,
     noise: 34,
     trend: [55, 57, 58, 59, 60, 60, 61],
+    updatedAt: "2026-03-08T08:00:00.000Z",
+    source: DEFAULT_SOURCE,
   },
   {
     id: "ridgeview",
@@ -45,6 +53,8 @@ const placesData = [
     greenSpace: 77,
     noise: 79,
     trend: [84, 85, 86, 87, 88, 89, 90],
+    updatedAt: "2026-03-11T08:00:00.000Z",
+    source: DEFAULT_SOURCE,
   },
   {
     id: "south-docks",
@@ -56,6 +66,8 @@ const placesData = [
     greenSpace: 41,
     noise: 40,
     trend: [38, 40, 42, 44, 46, 47, 49],
+    updatedAt: "2026-02-20T08:00:00.000Z",
+    source: DEFAULT_SOURCE,
   },
   {
     id: "lantern-hill",
@@ -67,6 +79,8 @@ const placesData = [
     greenSpace: 81,
     noise: 88,
     trend: [79, 80, 81, 82, 83, 84, 85],
+    updatedAt: "2026-03-09T08:00:00.000Z",
+    source: DEFAULT_SOURCE,
   },
   {
     id: "canal-ward",
@@ -78,6 +92,8 @@ const placesData = [
     greenSpace: 74,
     noise: 61,
     trend: [66, 67, 69, 70, 71, 72, 73],
+    updatedAt: "2026-03-13T08:00:00.000Z",
+    source: DEFAULT_SOURCE,
   },
   {
     id: "old-foundry",
@@ -89,6 +105,8 @@ const placesData = [
     greenSpace: 33,
     noise: 28,
     trend: [48, 49, 50, 51, 52, 53, 54],
+    updatedAt: "2026-01-28T08:00:00.000Z",
+    source: DEFAULT_SOURCE,
   },
   {
     id: "plaza-green",
@@ -100,6 +118,8 @@ const placesData = [
     greenSpace: 86,
     noise: 57,
     trend: [70, 71, 72, 73, 74, 75, 76],
+    updatedAt: "2026-03-07T08:00:00.000Z",
+    source: DEFAULT_SOURCE,
   },
   {
     id: "westbridge",
@@ -111,7 +131,9 @@ const placesData = [
     greenSpace: 55,
     noise: 49,
     trend: [63, 64, 65, 66, 67, 68, 69],
+    updatedAt: "2026-03-06T08:00:00.000Z",
+    source: DEFAULT_SOURCE,
   },
-] as const;
+];
 
 export const places: Place[] = placesSchema.parse(placesData);

@@ -25,7 +25,9 @@ So the insight exists — the interface does not.
 1. **Land** on a clear brand-first entry point
 2. **Explore** neighborhoods with search, district filters, and metric sorting
 3. **Inspect** a single place’s livability scores and air-quality trend
-In this portfolio version, the dataset is mocked but structured like real open data (validated with Zod), so the focus stays on the product layer cities usually under-invest in: **frontend clarity, accessibility, and shareable state**.
+4. **Encode / refresh** signals in an Editor — update existing metrics, add places or districts, and show provenance (`Updated … · from City Open Data Portal`)
+
+In this portfolio version, the dataset is mocked but structured like real open data (validated with Zod) and editable locally, so the focus stays on the product layer cities usually under-invest in: **frontend clarity, accessibility, and shareable state**.
 If connected to real city feeds later, the same architecture can encode live values without redesigning the experience.
 ## Design spec
 ### Visual direction
@@ -54,6 +56,7 @@ If connected to real city feeds later, the same architecture can encode live val
 - Zod contracts for place data
 - Vitest for filter/sort logic
 - Shared UI primitives (`Button`, `Input`, `Select`)
+- Local editable city dataset with provenance indicators
 - Accessibility basics (skip link, labels, reduced motion)
 - CI on every PR
 ---
@@ -68,8 +71,15 @@ Brand-first landing with signal visual and clear CTAs.
 ### Place detail (`/place/[id]`)
 - Livability metrics
 - Air-quality trend bars
-- Cached server fetch + Suspense-friendly rendering
+- Provenance badge (`Fresh` / `Aging` / `Stale` + source)
+- Cached seed fetch + client store overlay for edits
 - Custom not-found for unknown IDs
+
+### Editor (`/editor`)
+- Update Air / Transit / Green / Quietness for existing places
+- Add a new place under an existing or new district
+- Set source label and refresh `updatedAt`
+- Demo persistence via `localStorage` (reset available)
 ---
 ## Tech stack
 | Area | Choice |
