@@ -1,80 +1,90 @@
 # City Pulse
-
 Explore neighborhoods through clearer livability signals — air quality, transit, green space, and quietness.
-
-> Open-data inspired frontend demo focused on **performance patterns, accessibility, and clean architecture**.
-
+> A frontend portfolio project built to demonstrate production-minded React/Next.js craft: readable architecture, accessible UI, URL-driven state, and CI-backed quality.
 **Live demo:** _Coming soon_ <!-- replace with your Vercel URL -->
-
 ---
-
-## Screenshots
-
-<!-- Add images after capture:
-![Home](docs/home.png)
-![Explore](docs/explore.png)
-![Place detail](docs/place.png)
--->
-
-| Home | Explore | Place detail |
-| --- | --- | --- |
-| Brand-first hero | URL-synced filters + results | Metrics + air-quality trend |
-
+## Why this project
+In my city, livability information already exists — air quality readings, transit coverage, green space, and noise-related signals — but most people never see it in a useful way.
+The data is available in fragments across reports, portals, and internal systems. Residents still struggle to answer simple questions like:
+- Which areas feel healthier to live in?
+- Where is transit actually strong?
+- How has air quality been changing near me?
+**City Pulse** was built to solve that gap: take resources the city already has and **encode them into a clear, public-facing frontend** people can explore in seconds.
+This project is less about inventing new data, and more about making existing civic data **readable, shareable, and actionable**.
 ---
-
+## The problem
+Cities collect valuable environmental and mobility data, but the public experience is often:
+- buried in dense dashboards
+- split across multiple portals
+- hard to compare neighborhood to neighborhood
+- difficult to share as a specific filtered view
+So the insight exists — the interface does not.
+---
+## The solution
+**City Pulse** is a lightweight neighborhood explorer that turns civic signals into a simple product flow:
+1. **Land** on a clear brand-first entry point
+2. **Explore** neighborhoods with search, district filters, and metric sorting
+3. **Inspect** a single place’s livability scores and air-quality trend
+In this portfolio version, the dataset is mocked but structured like real open data (validated with Zod), so the focus stays on the product layer cities usually under-invest in: **frontend clarity, accessibility, and shareable state**.
+If connected to real city feeds later, the same architecture can encode live values without redesigning the experience.
+## Design spec
+### Visual direction
+- **Name:** Civic / calm signal system (not neon SaaS, not purple AI defaults)
+- **Accent:** soft sky blue `#6a9ebe`
+- **Surfaces:** light paper grays (`#f8fafc` background, white panels)
+- **Type:** Newsreader (display) + Source Sans 3 (body) for readable hierarchy
+- **Motion:** short rise-in transitions + reduced-motion support
+### Composition rules
+- **Brand first** on the home viewport (product name is a hero-level signal)
+- **One job per section** — no card soup in the hero
+- **Full-bleed atmosphere** with soft gradients/grid, plus an abstract signal visual
+- Interactive cards only where users act (filters/results/metrics)
+### UX principles
+- Shareable explore state via query params
+- Explicit loading / empty / error states
+- Keyboard-friendly controls, skip link, landmarks, live result counts
+---
 ## What this demonstrates
-
-- **Next.js App Router + TypeScript** with a production-shaped project structure
-- **URL as state** (`nuqs`) so explore filters are shareable and refresh-safe
-- **Debounced search** to reduce unnecessary fetches while typing
-- **TanStack Query** for client data fetching, caching, and loading/error UI
-- **Server Components + `"use cache"`** on place detail for prerender-friendly data
-- **Zod** validation for the places dataset contracts
-- **Vitest** coverage for filter/sort helpers
-- **Shared UI primitives** (`Button`, `Input`, `Select`) with a `cn()` helper
-- **Accessibility** — skip link, landmarks, labeled filters, live result updates, reduced-motion-aware skeletons
-- **Feature-based folders** — thin routes, thick features, shared UI/lib
-- **CI** — lint, test, and build on pull requests
-
+- Next.js App Router + TypeScript
+- Feature-based folders (`app` / `features` / `shared`)
+- URL as state (`nuqs`)
+- Debounced search
+- TanStack Query for client server-state
+- Server Components + `"use cache"` on place detail
+- Zod contracts for place data
+- Vitest for filter/sort logic
+- Shared UI primitives (`Button`, `Input`, `Select`)
+- Accessibility basics (skip link, labels, reduced motion)
+- CI on every PR
 ---
-
 ## Features
-
 ### Home (`/`)
-Brand-first landing with a signal visual and clear CTAs into exploration.
-
+Brand-first landing with signal visual and clear CTAs.
 ### Explore (`/explore`)
-- Search by neighborhood name (debounced)
-- Filter by district
-- Sort by air / transit / green / quietness
-- Loading skeletons, empty state, and error state
-- Shareable query strings, e.g. `/explore?district=north&sort=airQuality`
-
+- Debounced search
+- District filter + metric sort
+- Loading / empty / error states
+- Shareable URLs, e.g. `/explore?district=north&sort=airQuality`
 ### Place detail (`/place/[id]`)
-- Livability metrics with visual bars
-- Air-quality trend chart
+- Livability metrics
+- Air-quality trend bars
 - Cached server fetch + Suspense-friendly rendering
-- Custom not-found state for unknown IDs
-
+- Custom not-found for unknown IDs
 ---
-
 ## Tech stack
-
 | Area | Choice |
 | --- | --- |
 | Framework | Next.js 16 (App Router) |
 | Language | TypeScript |
-| Styling | Tailwind CSS v4 + design tokens |
-| Server state (client) | TanStack Query |
+| Styling | Tailwind CSS v4 + CSS design tokens |
+| Client server-state | TanStack Query |
 | URL state | nuqs |
 | Validation | Zod |
 | Testing | Vitest |
+| CI | GitHub Actions |
 | Fonts | Newsreader + Source Sans 3 |
-
 ---
-
 ## Architecture
-
 ```text
 app/                     # routes only (composition)
   explore/
@@ -87,70 +97,44 @@ shared/
   lib/                   # formatters, cn helper, schemas
   providers/             # QueryProvider
   ui/                    # shared Button, Input, Select
-```
+Split intentionally:
 
-**Design choice:** Explore is interactive/client-driven (filters + Query). Place detail is server-first and cacheable. That split mirrors real product boundaries.
+Explore = interactive/client-driven (filters + Query)
+Place detail = server-first and cacheable
+That mirrors how many real products separate browse vs detail.
 
----
+CI
+CI runs on GitHub Actions (.github/workflows/ci.yml) for:
 
-## Getting started
+every pull request
+every push to main
+Pipeline:
 
-### Requirements
-- Node.js 20.9+
-- npm
+npm ci
+npm run lint — ESLint / Next best practices
+npm test — Vitest unit tests (filter/sort helpers)
+npm run build — production build must succeed
+Why this CI: it catches broken types/UI contracts early, keeps main releasable, and shows engineering discipline without overbuilding a huge pipeline.
 
-### Run locally
+Getting started
+Requirements
+Node.js 20.9+
+npm
+Run locally
 
-```bash
 npm install
 npm run dev
-```
+Open http://localhost:3000.
 
-Open [http://localhost:3000](http://localhost:3000).
+Scripts
 
-### Scripts
-
-```bash
 npm run dev      # development server
 npm run build    # production build
 npm run start    # run production build
 npm run lint     # ESLint
 npm test         # Vitest unit tests
-```
-
----
-
-## Sample flows to try
-
-1. Home → **Explore neighborhoods**
-2. Filter `district=east` and sort by `transitScore`
-3. Open **Harbor Line**
-4. Use keyboard only: Tab to skip link, navigate header, filters, and result links
-
----
-
-## Product decisions
-
-| Decision | Why |
-| --- | --- |
-| Mock dataset first | Keeps UI/architecture as the highlight; easy to replace with a real API |
-| URL-synced filters | Shareable views + better UX than local-only state |
-| Debounced search | Avoids fetch thrash while typing |
-| Artificial delay on explore fetch | Makes loading/empty/error states visible for demo quality |
-| Cached place fetch | Aligns with Next Cache Components and faster detail navigations |
-| No map in v1 | Avoids heavy deps; list + metrics already prove the frontend craft |
-
----
-
-## Roadmap (optional next)
-
-- [ ] Deploy to Vercel + add live demo link
-- [ ] Add README screenshots
-- [ ] Replace mock data with a public open-data API
-- [ ] Lighthouse notes (perf / a11y scores)
-
----
-
-## License
-
-MIT
+Sample flows to try
+Home → Explore neighborhoods
+Filter district=east and sort by transitScore
+Open Harbor Line
+Keyboard-only: Tab to skip link, then through header, filters, and results
