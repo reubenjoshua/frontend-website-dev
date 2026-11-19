@@ -6,6 +6,7 @@ type Props = {
 
 export function TrendChart({ place }: Props) {
   const max = Math.max(...place.trend, 1);
+  const latest = place.trend[place.trend.length - 1];
 
   return (
     <section aria-labelledby="trend-heading" className="mt-10">
@@ -17,9 +18,14 @@ export function TrendChart({ place }: Props) {
       </h2>
       <p className="mt-2 text-sm text-muted">Recent weekly readings (mock data).</p>
 
+      <p className="sr-only">
+        Air quality readings over {place.trend.length} weeks:{" "}
+        {place.trend.join(", ")}. Latest value {latest}.
+      </p>
+
       <ul
         className="mt-6 flex h-40 items-end gap-2"
-        aria-label="Air quality trend values"
+        aria-hidden="true"
       >
         {place.trend.map((value, index) => (
           <li key={index} className="flex flex-1 flex-col items-center gap-2">
