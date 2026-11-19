@@ -1,10 +1,18 @@
 ﻿import Link from "next/link";
+import {
+  buttonBaseClassName,
+  buttonVariants,
+} from "@/shared/ui/button";
+import { cn } from "@/shared/lib/utils";
 
-function SignalVisual() {
+function SignalVisual({ className }: { className?: string }) {
   return (
     <div
       aria-hidden="true"
-      className="relative mx-auto aspect-square w-full max-w-[34rem] lg:mx-0"
+      className={cn(
+        "relative mx-auto aspect-square w-full max-w-[34rem] lg:mx-0",
+        className,
+      )}
     >
       <div className="absolute inset-[8%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(106,158,190,0.22)_0%,_rgba(106,158,190,0.06)_42%,_transparent_70%)]" />
       <div className="absolute inset-[18%] rounded-full border border-[#b7d2e4]/70" />
@@ -54,7 +62,6 @@ function SignalVisual() {
           style={{ transformBox: "fill-box", transformOrigin: "center" }}
         />
       </svg>
-
     </div>
   );
 }
@@ -71,7 +78,7 @@ export default function HomePage() {
         className="pointer-events-none absolute inset-0 opacity-[0.35] [background-image:linear-gradient(rgba(106,158,190,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(106,158,190,0.08)_1px,transparent_1px)] [background-size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_78%)]"
       />
 
-      <div className="relative z-10 mx-auto grid w-full max-w-6xl flex-1 items-center gap-12 px-6 py-14 sm:px-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-8 lg:py-10">
+      <div className="relative z-10 mx-auto grid w-full max-w-6xl flex-1 items-center gap-10 px-6 py-14 sm:px-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-8 lg:py-10">
         <div className="max-w-xl">
           <p className="animate-rise font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             City Pulse
@@ -93,21 +100,21 @@ export default function HomePage() {
           >
             <Link
               href="/explore"
-              className="inline-flex h-12 items-center justify-center rounded-full bg-accent px-7 text-base font-semibold text-accent-foreground transition hover:bg-[#5b8faf] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              className={cn(buttonBaseClassName, buttonVariants.primary)}
             >
               Explore neighborhoods
             </Link>
             <Link
               href="/explore?sort=airQuality"
-              className="inline-flex h-12 items-center justify-center rounded-full border border-border bg-surface/90 px-7 text-base font-medium text-foreground transition hover:border-accent/40 hover:bg-accent-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              className={cn(buttonBaseClassName, buttonVariants.secondary)}
             >
               Sort by air quality
             </Link>
           </div>
         </div>
 
-        <div className="animate-rise-delay-2 hidden sm:block">
-          <SignalVisual />
+        <div className="animate-rise-delay-2">
+          <SignalVisual className="max-w-[16rem] sm:max-w-[22rem] lg:max-w-[34rem]" />
         </div>
       </div>
     </main>
