@@ -1,7 +1,7 @@
 # City Pulse
 Explore neighborhoods through clearer livability signals — air quality, transit, green space, and quietness.
 > A frontend portfolio project built to demonstrate production-minded React/Next.js craft: readable architecture, accessible UI, URL-driven state, and CI-backed quality.
-**Live demo:** _Coming soon_ <!-- replace with your Vercel URL -->
+**Live demo:** https://frontend-website-dev.vercel.app/ <!-- replace with your Vercel URL -->
 ---
 
 ## Screenshots
