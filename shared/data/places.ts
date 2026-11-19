@@ -1,6 +1,7 @@
+import { placesSchema } from "@/shared/lib/place-schema";
 import type { Place } from "@/features/explore/types";
 
-export const places: Place[] = [
+const placesData = [
   {
     id: "harbor-line",
     name: "Harbor Line",
@@ -111,4 +112,6 @@ export const places: Place[] = [
     noise: 49,
     trend: [63, 64, 65, 66, 67, 68, 69],
   },
-];
+] as const;
+
+export const places: Place[] = placesSchema.parse(placesData);
