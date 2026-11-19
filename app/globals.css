@@ -1,15 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f0f4f8;
-  --foreground: #0b1f2a;
-  --muted: #5b6b76;
+  --background: #f8fafc;
+  --foreground: #243040;
+  --muted: #667687;
   --surface: #ffffff;
-  --border: #d5dee7;
-  --accent: #0e7c7b;
+  --border: #e4eaf0;
+  --accent: #6a9ebe;
   --accent-foreground: #ffffff;
-  --danger: #b42318;
-  --ring: #0e7c7b;
+  --danger: #7a6570;
+  --ring: #6a9ebe;
+  --accent-soft: #eef5fa;
 }
 
 @theme inline {
@@ -22,6 +23,7 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-danger: var(--danger);
   --color-ring: var(--ring);
+  --color-accent-soft: var(--accent-soft);
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
 }
@@ -55,6 +57,33 @@ body {
   white-space: normal;
 }
 
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-rise {
+  animation: rise-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-rise-delay-1 {
+  animation: rise-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
+}
+
+.animate-rise-delay-2 {
+  animation: rise-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.16s both;
+}
+
+.animate-rise-delay-3 {
+  animation: rise-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.24s both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -63,5 +92,14 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .animate-rise,
+  .animate-rise-delay-1,
+  .animate-rise-delay-2,
+  .animate-rise-delay-3 {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Outfit, Source_Sans_3 } from "next/font/google";
+import { Newsreader, Source_Sans_3 } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { QueryProvider } from "@/shared/providers/query-provider";
 import "./globals.css";
 
-const display = Outfit({
+const display = Newsreader({
   variable: "--font-display",
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
 const body = Source_Sans_3({
   variable: "--font-body",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -37,18 +39,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to main content
         </a>
 
-        <header className="border-b border-border/80 bg-surface/80 backdrop-blur">
-          <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-6 sm:px-10">
+        <header className="sticky top-0 z-40 border-b border-border/80 bg-background/90 backdrop-blur-md">
+          <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6 sm:px-10">
             <Link
               href="/"
-              className="font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.18em] text-foreground uppercase focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              className="font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
             >
               City Pulse
             </Link>
             <nav aria-label="Primary">
               <Link
                 href="/explore"
-                className="text-sm font-medium text-muted transition hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                className="rounded-full bg-accent-soft px-4 py-2 text-sm font-semibold text-accent transition hover:bg-[#dceaf3] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
               >
                 Explore
               </Link>

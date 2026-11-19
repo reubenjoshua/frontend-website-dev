@@ -19,7 +19,7 @@ export function ResultsList({ places, isLoading, isError }: Props) {
         {Array.from({ length: 4 }).map((_, index) => (
           <div
             key={index}
-            className="h-36 rounded-lg border border-border bg-surface motion-safe:animate-pulse"
+            className="h-36 rounded-xl border border-border bg-surface motion-safe:animate-pulse"
           />
         ))}
       </div>
@@ -29,7 +29,7 @@ export function ResultsList({ places, isLoading, isError }: Props) {
   if (isError) {
     return (
       <p
-        className="rounded-lg border border-danger/30 bg-surface p-4 text-danger"
+        className="rounded-xl border border-danger/25 bg-surface p-5 text-danger"
         role="alert"
       >
         Couldn’t load neighborhoods. Try again.
@@ -40,7 +40,7 @@ export function ResultsList({ places, isLoading, isError }: Props) {
   if (places.length === 0) {
     return (
       <p
-        className="rounded-lg border border-border bg-surface p-4 text-muted"
+        className="rounded-xl border border-border bg-surface p-5 text-muted"
         role="status"
       >
         No neighborhoods match these filters.
@@ -53,7 +53,7 @@ export function ResultsList({ places, isLoading, isError }: Props) {
       <div className="mb-4 flex items-baseline justify-between gap-3">
         <h2
           id="results-heading"
-          className="text-lg font-semibold text-foreground"
+          className="font-[family-name:var(--font-display)] text-xl font-semibold text-foreground"
         >
           Results
         </h2>

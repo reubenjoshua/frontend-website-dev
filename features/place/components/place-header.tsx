@@ -10,18 +10,20 @@ export function PlaceHeader({ place }: Props) {
     <header className="max-w-3xl">
       <Link
         href="/explore"
-        className="text-sm font-medium text-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        className="text-sm font-medium text-accent underline-offset-4 transition hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
       >
         <span aria-hidden="true">← </span>Back to explore
       </Link>
 
-      <p className="mt-6 text-sm font-semibold tracking-[0.18em] text-accent uppercase">
+      <p className="mt-8 text-sm font-semibold tracking-[0.16em] text-accent uppercase">
         {place.district}
       </p>
-      <h1 className="mt-3 font-[family-name:var(--font-display)] text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+      <h1 className="mt-3 font-[family-name:var(--font-display)] text-4xl leading-snug font-semibold tracking-tight text-foreground sm:text-5xl">
         {place.name}
       </h1>
-      <p className="mt-4 text-lg leading-relaxed text-muted">{place.summary}</p>
+      <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted">
+        {place.summary}
+      </p>
     </header>
   );
 }
