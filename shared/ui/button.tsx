@@ -9,13 +9,13 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export const buttonVariants: Record<Variant, string> = {
   primary:
-    "bg-accent text-accent-foreground hover:bg-[#5b8faf] focus-visible:outline-ring",
+    "cursor-pointer bg-accent text-accent-foreground hover:bg-[#0c6558] focus-visible:outline-ring",
   secondary:
-    "border border-border bg-surface/90 text-foreground hover:border-accent/40 hover:bg-accent-soft focus-visible:outline-ring",
+    "cursor-pointer border border-border bg-surface text-foreground hover:border-accent/40 hover:bg-accent-soft focus-visible:outline-ring",
 };
 
 export const buttonBaseClassName =
-  "inline-flex h-12 items-center justify-center rounded-full px-7 text-base font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex h-12 min-h-11 items-center justify-center rounded-lg px-6 text-base font-semibold transition duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60";
 
 export function Button({
   className,

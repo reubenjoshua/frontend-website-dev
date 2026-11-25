@@ -14,9 +14,9 @@ function SignalVisual({ className }: { className?: string }) {
         className,
       )}
     >
-      <div className="absolute inset-[8%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(106,158,190,0.22)_0%,_rgba(106,158,190,0.06)_42%,_transparent_70%)]" />
-      <div className="absolute inset-[18%] rounded-full border border-[#b7d2e4]/70" />
-      <div className="absolute inset-[30%] rounded-full border border-[#9fc2d9]/60" />
+      <div className="absolute inset-[8%] rounded-full bg-[radial-gradient(circle_at_center,_rgba(15,122,107,0.2)_0%,_rgba(15,122,107,0.05)_42%,_transparent_70%)]" />
+      <div className="absolute inset-[18%] rounded-full border border-[#b7d4cb]/80" />
+      <div className="absolute inset-[30%] rounded-full border border-[#8fbfb2]/70" />
       <div className="absolute inset-[42%] rounded-full border border-accent/35" />
 
       <svg
@@ -26,37 +26,38 @@ function SignalVisual({ className }: { className?: string }) {
       >
         <path
           d="M40 268C88 240 120 300 168 270C214 242 236 198 286 214C336 230 352 178 384 168"
-          stroke="#9fc2d9"
+          stroke="#8fbfb2"
           strokeWidth="1.5"
           strokeLinecap="round"
           className="animate-rise-delay-1"
         />
         <path
           d="M28 214C84 198 118 248 170 220C222 192 248 150 302 164C348 176 366 132 392 120"
-          stroke="#6a9ebe"
+          stroke="#0f7a6b"
           strokeWidth="2"
           strokeLinecap="round"
           className="animate-rise-delay-2"
         />
         <path
           d="M52 312C104 290 138 338 188 312C236 288 262 250 312 262C350 272 368 240 390 230"
-          stroke="#c5dae8"
+          stroke="#c5ddd5"
           strokeWidth="1.5"
           strokeLinecap="round"
           className="animate-rise"
         />
 
-        <circle cx="168" cy="270" r="5" fill="#6a9ebe" />
-        <circle cx="286" cy="214" r="4" fill="#8eb4ce" />
-        <circle cx="170" cy="220" r="6" fill="#5b8faf" />
-        <circle cx="302" cy="164" r="4.5" fill="#6a9ebe" />
-        <circle cx="188" cy="312" r="4" fill="#9fc2d9" />
+        <circle cx="168" cy="270" r="5" fill="#0f7a6b" />
+        <circle cx="286" cy="214" r="4" fill="#3f9a89" />
+        <circle cx="170" cy="220" r="6" fill="#0c6558" />
+        <circle cx="302" cy="164" r="4.5" fill="#0f7a6b" />
+        <circle cx="188" cy="312" r="4" fill="#8fbfb2" />
+        <circle cx="302" cy="164" r="10" stroke="#e8a317" strokeOpacity="0.55" />
 
         <circle
           cx="170"
           cy="220"
           r="14"
-          stroke="#6a9ebe"
+          stroke="#0f7a6b"
           strokeOpacity="0.35"
           className="origin-center motion-safe:animate-ping"
           style={{ transformBox: "fill-box", transformOrigin: "center" }}
@@ -71,11 +72,11 @@ export default function HomePage() {
     <main className="relative flex min-h-[calc(100svh-4rem)] flex-col overflow-hidden">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_78%_28%,_#e7f2f8_0%,_transparent_42%),linear-gradient(165deg,_#f8fafc_0%,_#eef5fa_48%,_#f7fafc_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_78%_28%,_#e4f2ee_0%,_transparent_42%),linear-gradient(165deg,_#f3f6f2_0%,_#eaf1ec_48%,_#f5f7f3_100%)]"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.35] [background-image:linear-gradient(rgba(106,158,190,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(106,158,190,0.08)_1px,transparent_1px)] [background-size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_78%)]"
+        className="pointer-events-none absolute inset-0 opacity-[0.3] [background-image:linear-gradient(rgba(26,36,32,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(26,36,32,0.07)_1px,transparent_1px)] [background-size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_78%)]"
       />
 
       <div className="relative z-10 mx-auto grid w-full max-w-6xl flex-1 items-center gap-10 px-6 py-14 sm:px-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-8 lg:py-10">

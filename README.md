@@ -38,9 +38,9 @@ In this portfolio version, the dataset is mocked but structured like real open d
 If connected to real city feeds later, the same architecture can encode live values without redesigning the experience.
 ## Design spec
 ### Visual direction
-- **Name:** Civic / calm signal system (not neon SaaS, not purple AI defaults)
-- **Accent:** soft sky blue `#6a9ebe`
-- **Surfaces:** light paper grays (`#f8fafc` background, white panels)
+- **Name:** Lagoon Paper — civic / calm signal system (not neon SaaS, not purple AI defaults)
+- **Accent:** lagoon green `#0f7a6b` with rare highlight `#e8a317`
+- **Surfaces:** sage-paper ground (`#f3f6f2`) + white panels
 - **Type:** Newsreader (display) + Source Sans 3 (body) for readable hierarchy
 - **Motion:** short rise-in transitions + reduced-motion support
 ### Composition rules

@@ -57,7 +57,7 @@ export function PlaceDetailView({ id, initialPlace }: Props) {
     <main className="relative min-h-svh overflow-hidden bg-background">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(ellipse_at_top_left,_rgba(106,158,190,0.12)_0%,_transparent_55%)]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(ellipse_at_top_left,_rgba(15,122,107,0.12)_0%,_transparent_55%)]"
       />
       <div className="relative mx-auto w-full max-w-6xl px-6 py-12 sm:px-10 sm:py-14">
         <PlaceHeader place={place} />

@@ -1,16 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
-  --foreground: #243040;
-  --muted: #667687;
+  --background: #f3f6f2;
+  --foreground: #1a2420;
+  --muted: #5e6b63;
   --surface: #ffffff;
-  --border: #e4eaf0;
-  --accent: #6a9ebe;
+  --border: #d5ded6;
+  --accent: #0f7a6b;
   --accent-foreground: #ffffff;
-  --danger: #7a6570;
-  --ring: #6a9ebe;
-  --accent-soft: #eef5fa;
+  --accent-soft: #e4f2ee;
+  --highlight: #e8a317;
+  --danger: #8c4a4a;
+  --ring: #0f7a6b;
 }
 
 @theme inline {
@@ -21,9 +22,10 @@
   --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
+  --color-highlight: var(--highlight);
   --color-danger: var(--danger);
   --color-ring: var(--ring);
-  --color-accent-soft: var(--accent-soft);
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
 }
@@ -32,6 +34,8 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 .sr-only {
@@ -69,19 +73,19 @@ body {
 }
 
 .animate-rise {
-  animation: rise-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: rise-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .animate-rise-delay-1 {
-  animation: rise-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
+  animation: rise-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) 0.06s both;
 }
 
 .animate-rise-delay-2 {
-  animation: rise-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.16s both;
+  animation: rise-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
 }
 
 .animate-rise-delay-3 {
-  animation: rise-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.24s both;
+  animation: rise-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -10,18 +10,20 @@ type Props = {
 function Metric({ label, value }: { label: string; value: number }) {
   return (
     <div>
-      <dt className="text-xs font-medium tracking-wide text-muted uppercase">
-        {label}
-      </dt>
-      <dd className="mt-1 text-base font-semibold text-foreground">
-        {formatScore(value)}
-      </dd>
+      <div className="flex items-baseline justify-between gap-2">
+        <dt className="text-xs font-medium tracking-wide text-muted uppercase">
+          {label}
+        </dt>
+        <dd className="text-sm font-semibold tabular-nums text-foreground">
+          {formatScore(value)}
+        </dd>
+      </div>
       <div
-        className="mt-2 h-1 overflow-hidden rounded-full bg-border"
+        className="mt-2 h-1.5 overflow-hidden rounded-full bg-border/80"
         aria-hidden="true"
       >
         <div
-          className="h-full rounded-full bg-accent/70"
+          className="h-full rounded-full bg-accent transition-[width] duration-300"
           style={{ width: `${value}%` }}
         />
       </div>
@@ -31,19 +33,29 @@ function Metric({ label, value }: { label: string; value: number }) {
 
 export function ResultCard({ place }: Props) {
   return (
-    <article className="rounded-xl border border-border bg-surface p-5 transition hover:border-accent/40 hover:bg-accent-soft/40 sm:p-6">
+    <article className="group border-b border-border/80 py-6 transition duration-200 first:pt-1 last:border-b-0">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h3 className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-foreground">
+        <div className="min-w-0">
+          <p className="text-xs font-semibold tracking-[0.14em] text-accent uppercase">
+            {place.district}
+          </p>
+          <h3 className="mt-1.5 font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-foreground sm:text-[1.7rem]">
             <Link
               href={`/place/${place.id}`}
-              className="rounded-sm outline-none transition hover:text-accent focus-visible:ring-2 focus-visible:ring-ring"
+              className="cursor-pointer rounded-sm outline-none transition duration-200 hover:text-accent focus-visible:ring-2 focus-visible:ring-ring"
             >
               {place.name}
             </Link>
           </h3>
-          <p className="mt-1 text-sm capitalize text-muted">{place.district}</p>
         </div>
+
+        <Link
+          href={`/place/${place.id}`}
+          className="cursor-pointer text-sm font-semibold text-accent transition duration-200 hover:text-[#0c6558] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        >
+          View signals
+          <span aria-hidden="true"> →</span>
+        </Link>
       </div>
 
       <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted sm:text-base">
@@ -56,7 +68,7 @@ export function ResultCard({ place }: Props) {
         source={place.source}
       />
 
-      <dl className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <dl className="mt-5 grid grid-cols-2 gap-x-5 gap-y-4 sm:grid-cols-4">
         <Metric label="Air" value={place.airQuality} />
         <Metric label="Transit" value={place.transitScore} />
         <Metric label="Green" value={place.greenSpace} />
