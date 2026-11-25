@@ -15,8 +15,8 @@ const freshnessLabel = {
 
 const freshnessClass = {
   fresh: "bg-accent-soft text-accent",
-  aging: "bg-[#f3efe6] text-[#8a7350]",
-  stale: "bg-[#f3e9ec] text-[#7a6570]",
+  aging: "bg-[#f7efd8] text-[#8a6a1f]",
+  stale: "bg-[#f3e9ec] text-danger",
 } as const;
 
 export function ProvenanceBadge({ updatedAt, source, className }: Props) {
@@ -31,7 +31,7 @@ export function ProvenanceBadge({ updatedAt, source, className }: Props) {
     >
       <span
         className={cn(
-          "rounded-full px-2.5 py-1 font-semibold tracking-wide uppercase",
+          "rounded-md px-2.5 py-1 font-semibold tracking-wide uppercase",
           freshnessClass[freshness],
         )}
       >

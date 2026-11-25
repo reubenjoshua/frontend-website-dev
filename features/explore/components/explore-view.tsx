@@ -53,7 +53,7 @@ export function ExploreView() {
     <div className="relative overflow-hidden">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(ellipse_at_top_left,_rgba(106,158,190,0.14)_0%,_transparent_55%)]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(ellipse_at_top_left,_rgba(15,122,107,0.11)_0%,_transparent_58%)]"
       />
 
       <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-12 sm:px-10">
@@ -66,7 +66,7 @@ export function ExploreView() {
           </h1>
           <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
             Filter by district, search by name, and sort by the metric that
-            matters to you. Share the URL to keep the same view.
+            matters. The URL keeps your view shareable.
           </p>
         </header>
 

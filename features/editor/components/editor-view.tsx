@@ -6,7 +6,9 @@ import { useQueryState, parseAsString } from "nuqs";
 import type { Place } from "@/features/explore/types";
 import { PRESET_DISTRICTS } from "@/features/explore/types";
 import { usePlaces } from "@/shared/providers/places-provider";
-import { Button } from "@/shared/ui/button";
+import { formatScore } from "@/shared/lib/format";
+import { cn } from "@/shared/lib/utils";
+import { Button, buttonBaseClassName, buttonVariants } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Select } from "@/shared/ui/select";
 import { ProvenanceBadge } from "@/shared/ui/provenance-badge";
@@ -19,7 +21,7 @@ function slugify(value: string) {
     .replace(/^-|-$/g, "");
 }
 
-function MetricField({
+function MetricSlider({
   label,
   value,
   onChange,
@@ -29,16 +31,67 @@ function MetricField({
   onChange: (value: number) => void;
 }) {
   return (
-    <label className="flex flex-col gap-2 text-sm">
-      <span className="font-medium text-foreground">{label}</span>
-      <Input
-        type="number"
+    <label className="flex flex-col gap-2.5 text-sm">
+      <span className="flex items-baseline justify-between gap-3">
+        <span className="font-medium text-foreground">{label}</span>
+        <span className="tabular-nums text-base font-semibold text-accent">
+          {formatScore(value)}
+        </span>
+      </span>
+      <input
+        type="range"
         min={0}
         max={100}
         value={value}
         onChange={(event) => onChange(Number(event.target.value))}
+        className="h-2 w-full cursor-pointer appearance-none rounded-full bg-border accent-accent"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={value}
       />
+      <div
+        className="h-1.5 overflow-hidden rounded-full bg-border/70"
+        aria-hidden="true"
+      >
+        <div
+          className="h-full rounded-full bg-accent transition-[width] duration-150"
+          style={{ width: `${value}%` }}
+        />
+      </div>
     </label>
+  );
+}
+
+function SignalPreview({ place }: { place: Place }) {
+  const metrics = [
+    { label: "Air", value: place.airQuality },
+    { label: "Transit", value: place.transitScore },
+    { label: "Green", value: place.greenSpace },
+    { label: "Quiet", value: place.noise },
+  ] as const;
+
+  return (
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+      {metrics.map((metric) => (
+        <div key={metric.label} className="min-w-0">
+          <p className="text-xs font-medium tracking-wide text-muted uppercase">
+            {metric.label}
+          </p>
+          <p className="mt-1 font-[family-name:var(--font-display)] text-2xl font-semibold tabular-nums text-foreground">
+            {formatScore(metric.value)}
+          </p>
+          <div
+            className="mt-2 h-1 overflow-hidden rounded-full bg-border/80"
+            aria-hidden="true"
+          >
+            <div
+              className="h-full rounded-full bg-accent"
+              style={{ width: `${metric.value}%` }}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -50,6 +103,7 @@ export function EditorView() {
     parseAsString.withDefault(""),
   );
   const [status, setStatus] = useState<string | null>(null);
+  const [mode, setMode] = useState<"update" | "create">("update");
 
   const selected =
     places.find((place) => place.id === selectedId) ?? places[0] ?? null;
@@ -87,6 +141,10 @@ export function EditorView() {
     return (
       <div className="mx-auto w-full max-w-6xl px-6 py-12 sm:px-10">
         <div className="h-10 w-56 rounded bg-accent-soft motion-safe:animate-pulse" />
+        <div className="mt-8 grid gap-6 lg:grid-cols-[16rem_minmax(0,1fr)]">
+          <div className="h-64 rounded-xl bg-accent-soft/70 motion-safe:animate-pulse" />
+          <div className="h-80 rounded-xl bg-accent-soft/70 motion-safe:animate-pulse" />
+        </div>
       </div>
     );
   }
@@ -138,6 +196,7 @@ export function EditorView() {
 
     addPlace(place);
     void setSelectedId(place.id);
+    setMode("update");
     setStatus(`Added ${place.name} in ${place.district}.`);
     setNewName("");
     setNewSummary("");
@@ -145,245 +204,331 @@ export function EditorView() {
   }
 
   return (
-    <div className="relative mx-auto w-full max-w-6xl px-6 py-12 sm:px-10">
-      <header className="max-w-3xl">
-        <p className="text-sm font-semibold tracking-[0.16em] text-accent uppercase">
-          Editor
-        </p>
-        <h1 className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
-          Encode and refresh city signals
-        </h1>
-        <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
-          Update existing neighborhood metrics, add a district/place, and show
-          provenance so residents can see when signals were refreshed.
-        </p>
-      </header>
+    <div className="relative overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(ellipse_at_top_right,_rgba(15,122,107,0.1)_0%,_transparent_55%)]"
+      />
 
-      {status ? (
-        <p
-          className="mt-6 rounded-xl border border-accent/20 bg-accent-soft px-4 py-3 text-sm text-foreground"
-          role="status"
-        >
-          {status}
-        </p>
-      ) : null}
-
-      <section className="mt-10 grid gap-8 lg:grid-cols-2">
-        <div className="rounded-xl border border-border bg-surface p-5 sm:p-6">
-          <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-foreground">
-            Update existing place
-          </h2>
-          <p className="mt-2 text-sm text-muted">
-            City teams can refresh Air, Transit, Green, and Quietness scores.
+      <div className="relative mx-auto w-full max-w-6xl px-6 py-12 sm:px-10">
+        <header className="max-w-3xl">
+          <p className="text-sm font-semibold tracking-[0.16em] text-accent uppercase">
+            Editor
           </p>
-
-          <label className="mt-5 flex flex-col gap-2 text-sm">
-            <span className="font-medium text-foreground">Place</span>
-            <Select
-              value={selected.id}
-              onChange={(event) => void setSelectedId(event.target.value)}
-            >
-              {places.map((place) => (
-                <option key={place.id} value={place.id}>
-                  {place.name} ({place.district})
-                </option>
-              ))}
-            </Select>
-          </label>
-
-          <ProvenanceBadge
-            className="mt-4"
-            updatedAt={draft.updatedAt}
-            source={draft.source}
-          />
-
-          <div className="mt-5 grid gap-4 sm:grid-cols-2">
-            <MetricField
-              label="Air quality"
-              value={draft.airQuality}
-              onChange={(airQuality) => setDraft({ ...draft, airQuality })}
-            />
-            <MetricField
-              label="Transit"
-              value={draft.transitScore}
-              onChange={(transitScore) => setDraft({ ...draft, transitScore })}
-            />
-            <MetricField
-              label="Green space"
-              value={draft.greenSpace}
-              onChange={(greenSpace) => setDraft({ ...draft, greenSpace })}
-            />
-            <MetricField
-              label="Quietness"
-              value={draft.noise}
-              onChange={(noise) => setDraft({ ...draft, noise })}
-            />
-          </div>
-
-          <label className="mt-4 flex flex-col gap-2 text-sm">
-            <span className="font-medium text-foreground">Source</span>
-            <Input
-              value={draft.source}
-              onChange={(event) =>
-                setDraft({ ...draft, source: event.target.value })
-              }
-              placeholder="City Open Data Portal"
-            />
-          </label>
-
-          <label className="mt-4 flex flex-col gap-2 text-sm">
-            <span className="font-medium text-foreground">Summary</span>
-            <Input
-              value={draft.summary}
-              onChange={(event) =>
-                setDraft({ ...draft, summary: event.target.value })
-              }
-            />
-          </label>
-
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Button type="button" onClick={() => saveSelected(draft)}>
-              Save updates
-            </Button>
-            <Link
-              href={`/place/${draft.id}`}
-              className="inline-flex h-12 items-center justify-center rounded-full border border-border bg-surface px-7 text-base font-semibold text-foreground transition hover:bg-accent-soft"
-            >
-              View place
-            </Link>
-          </div>
-        </div>
-
-        <div className="rounded-xl border border-border bg-surface p-5 sm:p-6">
-          <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-foreground">
-            Add place / district
-          </h2>
-          <p className="mt-2 text-sm text-muted">
-            Encode a new neighborhood into the public explorer, including a new
-            district when needed.
+          <h1 className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
+            Encode and refresh city signals
+          </h1>
+          <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
+            Pick a neighborhood, tune the four livability scores, and keep
+            provenance visible so people know when signals were refreshed.
           </p>
+        </header>
 
-          <label className="mt-5 flex flex-col gap-2 text-sm">
-            <span className="font-medium text-foreground">Place name</span>
-            <Input
-              value={newName}
-              onChange={(event) => setNewName(event.target.value)}
-              placeholder="River Bend"
-            />
-          </label>
+        {status ? (
+          <p
+            className="mt-6 border-l-4 border-accent bg-accent-soft/70 px-4 py-3 text-sm text-foreground"
+            role="status"
+          >
+            {status}
+          </p>
+        ) : null}
 
-          <fieldset className="mt-4">
-            <legend className="text-sm font-medium text-foreground">
-              District
-            </legend>
-            <div className="mt-2 flex flex-wrap gap-3">
-              <label className="inline-flex items-center gap-2 text-sm">
-                <input
-                  type="radio"
-                  name="district-mode"
-                  checked={newDistrictMode === "existing"}
-                  onChange={() => setNewDistrictMode("existing")}
-                />
-                Existing
-              </label>
-              <label className="inline-flex items-center gap-2 text-sm">
-                <input
-                  type="radio"
-                  name="district-mode"
-                  checked={newDistrictMode === "new"}
-                  onChange={() => setNewDistrictMode("new")}
-                />
-                New district
-              </label>
+        <div className="mt-10 grid gap-8 lg:grid-cols-[15.5rem_minmax(0,1fr)] lg:gap-10">
+          <aside className="lg:sticky lg:top-24 lg:self-start">
+            <div className="flex items-center justify-between gap-2">
+              <h2 className="text-sm font-semibold tracking-wide text-foreground uppercase">
+                Places
+              </h2>
+              <button
+                type="button"
+                onClick={() => setMode("create")}
+                className="cursor-pointer text-sm font-semibold text-accent transition duration-200 hover:text-[#0c6558] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              >
+                + Add
+              </button>
             </div>
-            <div className="mt-3">
-              {newDistrictMode === "existing" ? (
-                <Select
-                  value={newDistrict}
-                  onChange={(event) => setNewDistrict(event.target.value)}
-                >
-                  {districtOptions.map((item) => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </Select>
-              ) : (
-                <Input
-                  value={customDistrict}
-                  onChange={(event) => setCustomDistrict(event.target.value)}
-                  placeholder="harbor-isles"
-                />
-              )}
-            </div>
-          </fieldset>
 
-          <label className="mt-4 flex flex-col gap-2 text-sm">
-            <span className="font-medium text-foreground">Summary</span>
-            <Input
-              value={newSummary}
-              onChange={(event) => setNewSummary(event.target.value)}
-              placeholder="Short livability summary"
-            />
-          </label>
+            <ul className="mt-3 max-h-[28rem] space-y-1 overflow-y-auto pr-1">
+              {places.map((place) => {
+                const active = mode === "update" && place.id === selected.id;
+                return (
+                  <li key={place.id}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMode("update");
+                        void setSelectedId(place.id);
+                      }}
+                      className={cn(
+                        "flex w-full cursor-pointer flex-col rounded-lg px-3 py-2.5 text-left transition duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                        active
+                          ? "bg-accent text-accent-foreground"
+                          : "text-foreground hover:bg-accent-soft",
+                      )}
+                      aria-current={active ? "true" : undefined}
+                    >
+                      <span className="truncate text-sm font-semibold">
+                        {place.name}
+                      </span>
+                      <span
+                        className={cn(
+                          "truncate text-xs capitalize",
+                          active ? "text-accent-foreground/80" : "text-muted",
+                        )}
+                      >
+                        {place.district}
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
 
-          <label className="mt-4 flex flex-col gap-2 text-sm">
-            <span className="font-medium text-foreground">Source</span>
-            <Input
-              value={newSource}
-              onChange={(event) => setNewSource(event.target.value)}
-            />
-          </label>
-
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            <MetricField
-              label="Air quality"
-              value={newMetrics.airQuality}
-              onChange={(airQuality) =>
-                setNewMetrics((current) => ({ ...current, airQuality }))
-              }
-            />
-            <MetricField
-              label="Transit"
-              value={newMetrics.transitScore}
-              onChange={(transitScore) =>
-                setNewMetrics((current) => ({ ...current, transitScore }))
-              }
-            />
-            <MetricField
-              label="Green space"
-              value={newMetrics.greenSpace}
-              onChange={(greenSpace) =>
-                setNewMetrics((current) => ({ ...current, greenSpace }))
-              }
-            />
-            <MetricField
-              label="Quietness"
-              value={newMetrics.noise}
-              onChange={(noise) =>
-                setNewMetrics((current) => ({ ...current, noise }))
-              }
-            />
-          </div>
-
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Button type="button" onClick={createPlace}>
-              Add to City Pulse
-            </Button>
-            <Button
+            <button
               type="button"
-              variant="secondary"
               onClick={() => {
                 resetPlaces();
                 setDraftSourceId(null);
+                setMode("update");
                 setStatus("Reset to seed city data.");
               }}
+              className="mt-4 cursor-pointer text-left text-sm font-medium text-muted transition duration-200 hover:text-danger focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
             >
               Reset demo data
-            </Button>
-          </div>
+            </button>
+          </aside>
+
+          <section className="min-w-0">
+            {mode === "update" ? (
+              <div className="space-y-8">
+                <div className="flex flex-wrap items-start justify-between gap-4 border-b border-border/80 pb-6">
+                  <div>
+                    <p className="text-xs font-semibold tracking-[0.14em] text-accent uppercase">
+                      {draft.district}
+                    </p>
+                    <h2 className="mt-1 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-foreground">
+                      {draft.name}
+                    </h2>
+                    <ProvenanceBadge
+                      className="mt-3"
+                      updatedAt={draft.updatedAt}
+                      source={draft.source}
+                    />
+                  </div>
+                  <Link
+                    href={`/place/${draft.id}`}
+                    className={cn(buttonBaseClassName, buttonVariants.secondary)}
+                  >
+                    View place
+                  </Link>
+                </div>
+
+                <SignalPreview place={draft} />
+
+                <div className="grid gap-6 sm:grid-cols-2">
+                  <MetricSlider
+                    label="Air quality"
+                    value={draft.airQuality}
+                    onChange={(airQuality) => setDraft({ ...draft, airQuality })}
+                  />
+                  <MetricSlider
+                    label="Transit"
+                    value={draft.transitScore}
+                    onChange={(transitScore) =>
+                      setDraft({ ...draft, transitScore })
+                    }
+                  />
+                  <MetricSlider
+                    label="Green space"
+                    value={draft.greenSpace}
+                    onChange={(greenSpace) => setDraft({ ...draft, greenSpace })}
+                  />
+                  <MetricSlider
+                    label="Quietness"
+                    value={draft.noise}
+                    onChange={(noise) => setDraft({ ...draft, noise })}
+                  />
+                </div>
+
+                <div className="grid gap-4 border-t border-border/80 pt-6">
+                  <label className="flex flex-col gap-2 text-sm">
+                    <span className="font-medium text-foreground">Source</span>
+                    <Input
+                      value={draft.source}
+                      onChange={(event) =>
+                        setDraft({ ...draft, source: event.target.value })
+                      }
+                      placeholder="City Open Data Portal"
+                      className="bg-surface"
+                    />
+                  </label>
+
+                  <label className="flex flex-col gap-2 text-sm">
+                    <span className="font-medium text-foreground">Summary</span>
+                    <Input
+                      value={draft.summary}
+                      onChange={(event) =>
+                        setDraft({ ...draft, summary: event.target.value })
+                      }
+                      className="bg-surface"
+                    />
+                  </label>
+                </div>
+
+                <Button type="button" onClick={() => saveSelected(draft)}>
+                  Save updates
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                <div className="border-b border-border/80 pb-6">
+                  <p className="text-xs font-semibold tracking-[0.14em] text-accent uppercase">
+                    New place
+                  </p>
+                  <h2 className="mt-1 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-foreground">
+                    Add to City Pulse
+                  </h2>
+                  <p className="mt-2 max-w-xl text-sm text-muted">
+                    Encode a neighborhood into the explorer, including a new
+                    district when needed.
+                  </p>
+                </div>
+
+                <label className="flex flex-col gap-2 text-sm">
+                  <span className="font-medium text-foreground">Place name</span>
+                  <Input
+                    value={newName}
+                    onChange={(event) => setNewName(event.target.value)}
+                    placeholder="River Bend"
+                    className="bg-surface"
+                  />
+                </label>
+
+                <fieldset>
+                  <legend className="text-sm font-medium text-foreground">
+                    District
+                  </legend>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setNewDistrictMode("existing")}
+                      aria-pressed={newDistrictMode === "existing"}
+                      className={cn(
+                        "cursor-pointer rounded-lg px-3.5 py-2 text-sm font-semibold transition duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                        newDistrictMode === "existing"
+                          ? "bg-accent text-accent-foreground"
+                          : "bg-surface text-muted ring-1 ring-border hover:text-accent",
+                      )}
+                    >
+                      Existing
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setNewDistrictMode("new")}
+                      aria-pressed={newDistrictMode === "new"}
+                      className={cn(
+                        "cursor-pointer rounded-lg px-3.5 py-2 text-sm font-semibold transition duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                        newDistrictMode === "new"
+                          ? "bg-accent text-accent-foreground"
+                          : "bg-surface text-muted ring-1 ring-border hover:text-accent",
+                      )}
+                    >
+                      New district
+                    </button>
+                  </div>
+                  <div className="mt-3">
+                    {newDistrictMode === "existing" ? (
+                      <Select
+                        value={newDistrict}
+                        onChange={(event) => setNewDistrict(event.target.value)}
+                        className="bg-surface"
+                      >
+                        {districtOptions.map((item) => (
+                          <option key={item} value={item}>
+                            {item}
+                          </option>
+                        ))}
+                      </Select>
+                    ) : (
+                      <Input
+                        value={customDistrict}
+                        onChange={(event) =>
+                          setCustomDistrict(event.target.value)
+                        }
+                        placeholder="harbor-isles"
+                        className="bg-surface"
+                      />
+                    )}
+                  </div>
+                </fieldset>
+
+                <label className="flex flex-col gap-2 text-sm">
+                  <span className="font-medium text-foreground">Summary</span>
+                  <Input
+                    value={newSummary}
+                    onChange={(event) => setNewSummary(event.target.value)}
+                    placeholder="Short livability summary"
+                    className="bg-surface"
+                  />
+                </label>
+
+                <label className="flex flex-col gap-2 text-sm">
+                  <span className="font-medium text-foreground">Source</span>
+                  <Input
+                    value={newSource}
+                    onChange={(event) => setNewSource(event.target.value)}
+                    className="bg-surface"
+                  />
+                </label>
+
+                <div className="grid gap-6 sm:grid-cols-2">
+                  <MetricSlider
+                    label="Air quality"
+                    value={newMetrics.airQuality}
+                    onChange={(airQuality) =>
+                      setNewMetrics((current) => ({ ...current, airQuality }))
+                    }
+                  />
+                  <MetricSlider
+                    label="Transit"
+                    value={newMetrics.transitScore}
+                    onChange={(transitScore) =>
+                      setNewMetrics((current) => ({ ...current, transitScore }))
+                    }
+                  />
+                  <MetricSlider
+                    label="Green space"
+                    value={newMetrics.greenSpace}
+                    onChange={(greenSpace) =>
+                      setNewMetrics((current) => ({ ...current, greenSpace }))
+                    }
+                  />
+                  <MetricSlider
+                    label="Quietness"
+                    value={newMetrics.noise}
+                    onChange={(noise) =>
+                      setNewMetrics((current) => ({ ...current, noise }))
+                    }
+                  />
+                </div>
+
+                <div className="flex flex-wrap gap-3">
+                  <Button type="button" onClick={createPlace}>
+                    Add to City Pulse
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={() => setMode("update")}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            )}
+          </section>
         </div>
-      </section>
+      </div>
     </div>
   );
 }

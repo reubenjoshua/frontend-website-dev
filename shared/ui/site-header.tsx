@@ -13,13 +13,13 @@ export function SiteHeader() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/80 bg-background/90 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-border/80 bg-background/92 backdrop-blur-md">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6 sm:px-10">
         <Link
           href="/"
           className={cn(
-            "font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
-            pathname === "/" ? "text-accent" : "text-foreground",
+            "cursor-pointer font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight transition duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            pathname === "/" ? "text-accent" : "text-foreground hover:text-accent",
           )}
           aria-current={pathname === "/" ? "page" : undefined}
         >
@@ -39,9 +39,9 @@ export function SiteHeader() {
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "rounded-full px-4 py-2 text-sm font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "cursor-pointer rounded-lg px-4 py-2.5 text-sm font-semibold transition duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
                   active
-                    ? "bg-accent text-accent-foreground shadow-sm"
+                    ? "bg-accent text-accent-foreground"
                     : "text-muted hover:bg-accent-soft hover:text-accent",
                 )}
               >
